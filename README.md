@@ -79,3 +79,23 @@ It's easy to test scripts locally with an interactive shell:
 
     % make test
 
+## For Windows PowerShell Users
+
+Make sure you have [node.js][nodejs] and [npm][npmjs] (npm comes with node v0.6.3+) installed. 
+
+One easy way to get Node on Windows is to use the [Web Platform Installer](http://www.microsoft.com/Web/webmatrix/node.aspx).
+
+Install coffee script
+
+    npm install -g coffee-script
+
+## Testing hubot locally
+
+From the Hubot directory, install all of the required dependencies by running `npm install`.
+
+It's easy to test scripts locally with an interactive shell:
+
+    % $PATH += ";node_modules/.bin"
+    % coffee bin/hubot
+
+That's it!
