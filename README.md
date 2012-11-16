@@ -98,4 +98,4 @@ It's easy to test scripts locally with an interactive shell:
     % $PATH += ";node_modules/.bin"
     % coffee bin/hubot
 
-That's it!
+That's it! Once it's up and running, try the `hubot help` command to learn more.
