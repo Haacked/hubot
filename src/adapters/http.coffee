@@ -9,18 +9,18 @@ Adapter = require '../adapter'
 class Http extends Adapter
   
   send: (user, strings...) ->
-    str = strings.join ''
+    str = strings[0].split('\n').join('<br />')
     @response.end "<html>
       <head>
         <title>Hubot on Azure</title>
         <style>
-          body {font-famil: helvetica, arial, san-serif;}
+          body {font-family: helvetica, arial, san-serif;}
         </style>
       </head>
       <body>
         <h1>Hubot says:</h1>
         <div>
-          <pre>#{str}</pre>
+          #{str}
         </div>
       </body>"
       
