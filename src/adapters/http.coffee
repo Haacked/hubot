@@ -52,21 +52,8 @@ class Http extends Adapter
     server = http.createServer @onRequest
     port = process.env.PORT || 1337
     server.listen port
-    console.log "Server running at http://0.0.0.0:/#{port}"
-
-    process.stdin.resume()
-    process.stdin.on 'data', (txt) =>
-      console.log txt.toString()
-      txt.toString().split("\n").forEach (line) =>
-        return if line.length is 0
-        @receive new Robot.TextMessage user, line
-
-    setTimeout =>
-      user   = @userForId('1', {name: "Http"})
-      atmos  = @userForId('2', {name: "atmos"})
-      holman = @userForId('3', {name: "Zach Holman"})
-    , 3000
-    
+    console.log "Server running at http://0.0.0.0:#{port}"
+   
     self.emit "connected"
 
 exports.use = (robot) ->

@@ -2,4 +2,4 @@
 var coffee = require('coffee-script');
 
 // Include our application file
-var hubot = require('./bin/hubot');
+var app = require('./bin/hubot');
