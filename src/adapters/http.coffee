@@ -11,36 +11,59 @@ class Http extends Adapter
   htmlTemplate = "<html>
       <head>
         <title>Hubot on Azure</title>
+        <script src='//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js'></script>
+        <script>
+          $(function() {
+            $('#hubot-form').submit(function() {
+              $('#hubot-response').load('./?message=' + encodeURI($('#message').val()));
+              return false;
+            });
+          });
+        </script>
         <style>
+          @font-face{
+            font-family:'Segoe UI';src:local('Segoe UI'),url(//az213233.vo.msecnd.net/Content/2.8.00298.1.121115-0734/Fonts/segoeui.ttf)
+          }
+          @font-face{
+            font-family:'Segoe UI Semibold';src:local('Segoe UI Semibold'),url(//az213233.vo.msecnd.net/Content/2.8.00298.1.121115-0734/Fonts/seguisb.ttf)
+          }
+          @font-face{
+            font-family:'Segoe UI Light';src:local('Segoe UI Light'),url(//az213233.vo.msecnd.net/Content/2.8.00298.1.121115-0734/Fonts/segoeuil.ttf);
+          }
           body {
-            font-family: helvetica, arial, san-serif;
-            background-color: #999;
+            font-family: 'Segoe UI';
+            color: #777;
           }
           h1 {
-            color: #777;
-            font-weight: normal;
-            font-size: 1.2em;
+            font-family: 'Segoe UI Light';
+            color: #999;
             margin-top: 10px;
           }
           h1 span.welcome {
-            color: #aaa;
+            font-size: 1.5em;
+            color: #222;
             padding-right: 10px;
-            font-size: 1.2em;
+          }
+          h1 span.subtitle {
+            font-size: 1.1em;
           }
           input {
             font-size: 2em;
-            color: #666;
+            color: #333;
+            padding: 4px 8px;
           }
           #main {
             width: 800px;
             margin: 0 auto;
-            border: solid 4px;
             padding: 20px;
-            background-color: #fff;
-            color: #444;
+            color: #777;
           }
           p {
-            padding: 0 10px;
+            padding: 0 5px;
+          }
+          #hubot-response {
+            color: #333;
+            font-size: 1.8em;
           }
         </style>
       </head>
@@ -57,7 +80,7 @@ class Http extends Adapter
     if /\.(png|jpe?g|gif)/.test(str)
       str = "<img src='#{str}' width='600px' />";
 
-    @response.end htmlTemplate.replace "{CONTENT}", "<h1>Hubot says:</h1>
+    @response.end "<h1>hubot says:</h1>
         <div>
           #{str}
         </div>"
@@ -73,17 +96,20 @@ class Http extends Adapter
     url_parts = url.parse request.url, true
 
     if !url_parts.query.message?
-      response.end htmlTemplate.replace "{CONTENT}", '<h1><span class="welcome">Hubot on Azure</span> 
-        Robots have taken to the clouds.</h1>
+      response.end htmlTemplate.replace "{CONTENT}", '<h1><span class="welcome">hubot on azure</span> 
+        <span class="subtitle">robots in <em>the cloud</em></span></h1>
         <p>
-          Commands are passed using the query strings. 
-          Use the convenient form here to post a command.
+          Commands are passed using the query string using the format <code>?message=the+command</code>
+        </p> 
+        <p>
+          ...or use the convenient form here to send a command.
         </p>
-        <form method="get" href=".">
-          <input type="text" name="message" />
-          <input type="submit" />
+        <form id="hubot-form" method="get" href=".">
+          <input id="message" type="text" name="message" />
+          <input id="submit" type="submit" value="tell the robot" />
         </form>
-        <p>For example: hubot help</p>'      
+        <p>For example: hubot help</p>
+        <div id="hubot-response">&nbsp;</div>'
       return
 
     message = url_parts.query.message
@@ -91,7 +117,7 @@ class Http extends Adapter
     if message == "hubot die"
       console.log "shutting down hubot."
       @robot.shutdown()
-      response.end htmlTemplate.replace "{CONTENT}", '<h1>Goodbye cruel world!</h1>'
+      response.end '<h1>Goodbye cruel world!</h1>'
       process.exit 0
 
     @receive new TextMessage @user, message
