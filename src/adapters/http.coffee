@@ -10,6 +10,10 @@ class Http extends Adapter
   
   send: (user, strings...) ->
     str = strings[0].split('\n').join('<br />')
+
+    if /\.(png|jpe?g|gif)/.test(str)
+      str = "<img src='#{str}' width='600px' />";
+
     @response.end "<html>
       <head>
         <title>Hubot on Azure</title>
