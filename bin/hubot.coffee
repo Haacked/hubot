@@ -27,7 +27,7 @@ Switches = [
 ]
 
 Options =
-  adapter: "shell"
+  adapter: "http"
   alias: false
   create: false
   enableHttpd: true
